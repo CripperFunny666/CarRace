@@ -43,9 +43,9 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
         touch = new Vector3();
-        font70white = new BitmapFont(Gdx.files.internal("fnt/serif70white.fnt"));
-        font70gray = new BitmapFont(Gdx.files.internal("fnt/serif70gray.fnt"));
-        font50white = new BitmapFont(Gdx.files.internal("fnt/serif50white.fnt"));
+        font70white = new BitmapFont(Gdx.files.internal("fnt/gu.fnt"));
+        font70gray = new BitmapFont(Gdx.files.internal("fnt/gugray.fnt"));
+        font50white = new BitmapFont(Gdx.files.internal("fnt/gu50white.fnt"));
         fadeTexture = new Texture("white.png");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("main.mp3"));

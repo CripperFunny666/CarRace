@@ -33,6 +33,9 @@ public class ScreenSettings implements Screen {
     SunButton btnControl;
     SunButton btnKeyboard;
     SunButton btnAccelerometer;
+    SunButton btnGamemode;
+    SunButton btnOneway;
+    SunButton btnTwoway;
     SunButton btnSound;
     SunButton btnBack;
 
@@ -46,15 +49,18 @@ public class ScreenSettings implements Screen {
         font50white = main.font50white;
         keyboard = new InputKeyboard(font50white, SCR_WIDTH, SCR_HEIGHT/2, 7);
 
-        imgBackGround = new Texture("space3.png");
+        imgBackGround = new Texture("scrset.png");
 
         loadSettings();
         btnName = new SunButton("Name: "+main.player.name, font70white, 100, 1200);
-        btnControl = new SunButton("Control", font70white, 100, 1050);
-        btnKeyboard = new SunButton("Keyboard", font70white, 200, 950);
-        btnAccelerometer = new SunButton("Accelerometer", font70white, 200, 850);
+        btnControl = new SunButton("Control", font70white, 100, 1100);
+        btnKeyboard = new SunButton("Keyboard", font70white, 200, 1000);
+        btnAccelerometer = new SunButton("Accelerometer", font70white, 200, 900);
+        btnGamemode = new SunButton("Gamemode", font70white, 100, 800);
+        btnOneway = new SunButton("ONE-WAY", font70white, 200, 700);
+        btnTwoway = new SunButton("TWO-WAY", font70white, 200, 600);
         setFontColorByControls();
-        btnSound = new SunButton(isSoundOn ? "Sound ON" : "Sound OFF", font70white, 100, 600);
+        btnSound = new SunButton(isSoundOn ? "Sound ON" : "Sound OFF", font70white, 100, 1300);
         btnBack = new SunButton("Back", font70white, 150);
     }
 
@@ -113,6 +119,9 @@ public class ScreenSettings implements Screen {
         btnControl.font.draw(batch, btnControl.text, btnControl.x, btnControl.y);
         btnKeyboard.font.draw(batch, btnKeyboard.text, btnKeyboard.x, btnKeyboard.y);
         btnAccelerometer.font.draw(batch, btnAccelerometer.text, btnAccelerometer.x, btnAccelerometer.y);
+        btnGamemode.font.draw(batch, btnGamemode.text, btnGamemode.x, btnGamemode.y);
+        btnOneway.font.draw(batch, btnOneway.text, btnOneway.x, btnOneway.y);
+        btnTwoway.font.draw(batch, btnTwoway.text, btnTwoway.x, btnTwoway.y);
         btnSound.font.draw(batch, btnSound.text, btnSound.x, btnSound.y);
         btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
         keyboard.draw(batch);

@@ -1,17 +1,16 @@
 package ru.carrace;
 
-import static ru.carrace.Main.*;
 import static ru.carrace.Main.SCR_HEIGHT;
 import static ru.carrace.Main.SCR_WIDTH;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Ship extends SpaceObject{
+public class Car extends SpaceObject{
     public int phase, nPhases = 12;
     private long timeLastPhase, timePhaseInterval = 50;
 
-    public Ship(float x, float y) {
+    public Car(float x, float y) {
         super(x, y);
         width = 200;
         height = 200;

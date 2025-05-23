@@ -34,13 +34,13 @@ public class ScreenMenu implements Screen {
         touch = main.touch;
         font = main.font70white;
 
-        imgBackGround = new Texture("space1.png");
+        imgBackGround = new Texture("scrmenu.png");
 
-        btnPlay = new SunButton("Play", font, 390, 1050);
-        btnSettings = new SunButton("Settings", font, 340, 930);
-        btnLeaderBoard = new SunButton("LeaderBoard", font, 250, 810);
-        btnAbout = new SunButton("About", font, 350, 690);
-        btnExit = new SunButton("Exit", font, 390, 570);
+        btnPlay = new SunButton("Play", font, 385, 600);
+        btnSettings = new SunButton("Settings", font, 320, 500);
+        btnLeaderBoard = new SunButton("LeaderBoard", font, 250, 400);
+        btnAbout = new SunButton("About", font, 350, 300);
+        btnExit = new SunButton("Exit", font, 390, 200);
     }
 
     @Override

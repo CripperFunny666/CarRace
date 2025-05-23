@@ -1,6 +1,5 @@
 package ru.carrace;
 
-import static ru.carrace.Main.*;
 import static ru.carrace.Main.ACCELEROMETER;
 import static ru.carrace.Main.SCR_HEIGHT;
 import static ru.carrace.Main.SCR_WIDTH;
@@ -14,28 +13,24 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-//import retrofit2.Call;
-//import retrofit2.Response;
-// retrofit2.Retrofit;
-//import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScreenGame implements Screen {
     private SpriteBatch batch;
@@ -59,11 +54,10 @@ public class ScreenGame implements Screen {
     Music music;
 
     SunButton btnBack;
-    SunButton btnSwitchGlobal;
     SunButton btnRestart;
 
     Space[] space = new Space[2];
-    Ship ship;
+    Car car;
     List<Enemy> enemies = new ArrayList<>();
     List<Shot> shots = new ArrayList<>();
     List<Fragment> fragments = new ArrayList<>();
@@ -73,10 +67,9 @@ public class ScreenGame implements Screen {
 
     private long timeLastSpawnEnemy, timeSpawnEnemyInterval = 1500;
     private long timeLastSpawnCoin, timeSpawnCoinInterval = 2000;
-    private long timeLastShoot, timeShootInterval = 800;
-    private int nFragments = 9;
+    private long timeLastShoot, timeShootInterval = 5000;
+    private int nFragments = 36;
     private boolean gameOver;
-    private boolean showGlobalRecords;
     private long explosionStartTime; // Время начала взрыва
     private boolean explosionAnimationFinished; // Флаг завершения анимации взрыва
     private static final long EXPLOSION_DURATION = 2000; // Длительность анимации взрыва в миллисекундах
@@ -109,9 +102,10 @@ public class ScreenGame implements Screen {
         music = Gdx.audio.newMusic(Gdx.files.internal("song.mp3"));
         music.setLooping(true);
 
-        imgBackGround = new Texture("space0.png");
+        imgBackGround = new Texture("scrgame.png");
         imgShipsAtlas = new Texture("ships_atlas.png");
         imgShotsAtlas = new Texture("shots.png");
+        Coin.imgCoin = new TextureRegion(new Texture("coin.png"));
         for (int i = 0; i < imgShip.length; i++) {
             imgShip[i] = new TextureRegion(imgShipsAtlas, (i < 7 ? i : 12 - i) * 400, 0, 400, 400);
         }
@@ -135,7 +129,6 @@ public class ScreenGame implements Screen {
         }
 
         btnBack = new SunButton("x", font70, 850, 1600);
-        btnSwitchGlobal = new SunButton("Local", font70, 1300);
         btnRestart = new SunButton("restart", font70, 300);
 
         space[0] = new Space(0, 0);
@@ -145,7 +138,6 @@ public class ScreenGame implements Screen {
         }
         loadTableOfRecords();
 
-        Coin.imgCoin = new TextureRegion(new Texture("coin.png"));
     }
 
     @Override
@@ -185,15 +177,6 @@ public class ScreenGame implements Screen {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
 
-            if (btnSwitchGlobal.hit(touch) && gameOver && explosionAnimationFinished) {
-                showGlobalRecords = !showGlobalRecords;
-                if (showGlobalRecords) {
-                    btnSwitchGlobal.setText("Global");
-                    loadFromInternetDB();
-                } else {
-                    btnSwitchGlobal.setText("Local");
-                }
-            }
             if (btnBack.hit(touch)) {
                 if (isSoundOn) {
                     sndCar.stop();
@@ -205,8 +188,8 @@ public class ScreenGame implements Screen {
             }
         }
         if (controls == ACCELEROMETER) {
-            ship.vx = -Gdx.input.getAccelerometerX() * 2;
-            ship.vy = -Gdx.input.getAccelerometerY() * 2;
+            car.vx = -Gdx.input.getAccelerometerX() * 2;
+            car.vy = -Gdx.input.getAccelerometerY() * 2;
         }
 
         // События
@@ -216,14 +199,14 @@ public class ScreenGame implements Screen {
         spawnEnemy();
         spawnCoin();
         if (!gameOver) {
-            ship.move();
+            car.move();
         }
         for (int i = enemies.size() - 1; i >= 0; i--) {
             enemies.get(i).move(gameSpeed); // Передаем текущую скорость игры
             if (enemies.get(i).outOfScreen()) {
                 enemies.remove(i);
             }
-            if (enemies.get(i).overlap(ship)) {
+            if (enemies.get(i).overlap(car)) {
                 spawnFragments(enemies.get(i));
                 enemies.remove(i);
                 gameOver();
@@ -262,13 +245,13 @@ public class ScreenGame implements Screen {
             }
         }
 
-        for (int i = coins.size() - 1; i >= 0; i--) {
+        for (int i = coins.size() -1; i >= 0; i--) {
             coins.get(i).move(gameSpeed); // Передаем текущую скорость игры
             if (coins.get(i).outOfScreen()) {
                 coins.remove(i);
                 continue;
             }
-            if (coins.get(i).overlap(ship)) {
+            if (coins.get(i).overlap(car)) {
                 if (isSoundOn) sndCoin.play();
                 main.player.coins += coins.get(i).getValue();
                 coins.remove(i);
@@ -279,7 +262,7 @@ public class ScreenGame implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for (Space s : space) batch.draw(imgBackGround, s.x, s.y, s.width, s.height);
-        
+
         // Оптимизированная отрисовка фрагментов
         if (!fragments.isEmpty()) {
             for (Fragment f : fragments) {
@@ -292,7 +275,7 @@ public class ScreenGame implements Screen {
         for (Shot s : shots) {
             batch.draw(imgShot[0], s.scrX(), s.scrY(), s.width, s.height);
         }
-        batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
+        batch.draw(imgShip[car.phase], car.scrX(), car.scrY(), car.width, car.height);
         btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
         font50.draw(batch, "score:" + S, 10, 1590); // Выводим текущий счёт S
         font50.draw(batch, "coins:" + main.player.coins, 10, 1540);
@@ -300,27 +283,17 @@ public class ScreenGame implements Screen {
         if (gameOver) {
             if (explosionAnimationFinished) {
                 font70.draw(batch, "GAME OVER", 0, 1400, SCR_WIDTH, Align.center, true);
-                btnSwitchGlobal.font.draw(batch, btnSwitchGlobal.text, btnSwitchGlobal.x, btnSwitchGlobal.y);
                 font50.draw(batch, "score", 500, 1200, 200, Align.right, false);
                 font50.draw(batch, "coins", 650, 1200, 200, Align.right, false);
-                if (showGlobalRecords) {
-                    for (int i = 0; i < Math.min(db.size(), players.length); i++) {
-                        font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
-                        font50.draw(batch, db.get(i).name, 200, 1100 - i * 70);
-                        font50.draw(batch, db.get(i).score + "", 500, 1100 - i * 70, 200, Align.right, false);
-                        font50.draw(batch, db.get(i).coins + "", 650, 1100 - i * 70, 200, Align.right, false);
-                    }
-                } else {
-                    for (int i = 0; i < players.length; i++) {
-                        font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
-                        font50.draw(batch, players[i].name, 200, 1100 - i * 70);
-                        font50.draw(batch, players[i].score + "", 500, 1100 - i * 70, 200, Align.right, false);
-                        font50.draw(batch, players[i].coins + "", 650, 1100 - i * 70, 200, Align.right, false);
-                    }
+                for (int i = 0; i < players.length; i++) {
+                    font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
+                    font50.draw(batch, players[i].name, 200, 1100 - i * 70);
+                    font50.draw(batch, players[i].score + "", 500, 1100 - i * 70, 200, Align.right, false);
+                    font50.draw(batch, players[i].coins + "", 650, 1100 - i * 70, 200, Align.right, false);
                 }
                 btnRestart.font.draw(batch, btnRestart.text, btnRestart.x, btnRestart.y);
             } else {
-                font70.draw(batch, "BOOM!", 0, 1400, SCR_WIDTH, Align.center, true);
+                font70.draw(batch, "You have been crash!", 0, 1400, SCR_WIDTH, Align.center, true);
             }
         }
         for (Coin c : coins) {
@@ -397,7 +370,7 @@ public class ScreenGame implements Screen {
         gameOver = false;
         explosionAnimationFinished = false;
         gameSpeed = 1.0f; // Сбрасываем скорость игры
-        ship = new Ship(SCR_WIDTH / 2, 200);
+        car = new Car(SCR_WIDTH / 2, 200);
         enemies.clear();
         fragments.clear();
         shots.clear();
@@ -416,8 +389,8 @@ public class ScreenGame implements Screen {
             sndExplosion.play();
             sndCar.stop();
         }
-        spawnFragments(ship);
-        ship.x = -10000;
+        spawnFragments(car);
+        car.x = -10000;
         gameOver = true;
         explosionStartTime = TimeUtils.millis();
         explosionAnimationFinished = false;
@@ -470,39 +443,11 @@ public class ScreenGame implements Screen {
     }
 
     public void loadFromInternetDB() {
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://sch120.ru/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-        SpaceAPI api = retrofit.create(SpaceAPI.class);
-        Call<List<DataFromDB>> call = api.sendQuery("ask");
-        try {
-            Response<List<DataFromDB>> response = call.execute();
-            if (response.isSuccessful() && response.body() != null) {
-                db = response.body();
-                sortRecordsInternetDB();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Implementation of loadFromInternetDB method
     }
 
     public void sendToInternetDB() {
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://sch120.ru/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-        SpaceAPI api = retrofit.create(SpaceAPI.class);
-        Call<List<DataFromDB>> call = api.sendQuery("add", main.player.name, main.player.score, main.player.coins);
-        try {
-            Response<List<DataFromDB>> response = call.execute();
-            if (response.isSuccessful() && response.body() != null) {
-                db = response.body();
-                sortRecordsInternetDB();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Implementation of sendToInternetDB method
     }
 
     class SunInputProcessor implements InputProcessor {
@@ -515,20 +460,20 @@ public class ScreenGame implements Screen {
         private void updateMovement() {
             // Вертикальное движение
             if (upPressed && !downPressed) {
-                ship.vy = 7;
+                car.vy = 7;
             } else if (downPressed && !upPressed) {
-                ship.vy = -4;
+                car.vy = -4;
             } else {
-                ship.vy = 0;
+                car.vy = 0;
             }
 
             // Горизонтальное движение
             if (leftPressed && !rightPressed) {
-                ship.vx = -8;
+                car.vx = -8;
             } else if (rightPressed && !leftPressed) {
-                ship.vx = 8;
+                car.vx = 8;
             } else {
-                ship.vx = 0;
+                car.vx = 0;
             }
         }
 
@@ -553,7 +498,7 @@ public class ScreenGame implements Screen {
                     return true;
                 case Input.Keys.SPACE:
                     if (TimeUtils.millis() > timeLastShoot + timeShootInterval) {
-                        shots.add(new Shot(ship.x, ship.y + ship.height));
+                        shots.add(new Shot(car.x, car.y + car.height));
                         timeLastShoot = TimeUtils.millis();
                         if (isSoundOn) sndBlaster.play();
                     }

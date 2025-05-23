@@ -62,17 +62,13 @@ dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
   implementation project(':core')
 
-  // Retrofit2 dependencies
-  implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-  implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-  implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-  implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
-
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 
+  implementation "com.github.tommyettinger:libgdx-utils-box2d:$utilsBox2dVersion"
+  implementation "com.github.tommyettinger:libgdx-utils:$utilsVersion"
 }
 
 // Called every time gradle gets executed, takes the native dependencies of

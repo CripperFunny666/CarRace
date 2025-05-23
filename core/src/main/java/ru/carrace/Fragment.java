@@ -15,9 +15,9 @@ public class Fragment extends SpaceObject{
         super(x, y);
         this.type = type;
         this.num = MathUtils.random(0, lengthImgFragments-1);
-        width = MathUtils.random(50, 70);
-        height = MathUtils.random(50, 70);
-        float a = MathUtils.random(0f, 360f);
+        width = MathUtils.random(20, 40);
+        height = MathUtils.random(20, 40);
+        float a = MathUtils.random(2f, 360f);
         float v = MathUtils.random(2f, 12f);
         vx = v*MathUtils.sin(a);
         vy = v*MathUtils.cos(a);

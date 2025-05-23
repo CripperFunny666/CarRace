@@ -34,7 +34,7 @@ public class ScreenAbout implements Screen {
         touch = main.touch;
         font = main.font70white;
 
-        imgBackGround = new Texture("space2.png");
+        imgBackGround = new Texture("scr3.png");
 
         btnBack = new SunButton("Back", font, 150);
     }
