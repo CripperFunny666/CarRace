@@ -329,7 +329,11 @@ public class ScreenGame implements Screen {
     @Override
     public void hide() {
         music.stop();
-        main.music.play();
+        if (isSoundOn) {
+            main.music.play();
+        } else {
+            main.music.stop();
+        }
     }
 
     @Override

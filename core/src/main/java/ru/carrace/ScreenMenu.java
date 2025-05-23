@@ -46,6 +46,9 @@ public class ScreenMenu implements Screen {
     @Override
     public void show() {
         Gdx.graphics.setForegroundFPS(10);
+        if (isSoundOn) {
+            main.music.play();
+        }
     }
 
     @Override

@@ -50,9 +50,6 @@ public class Main extends Game {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("main.mp3"));
         music.setLooping(true);
-        if (isSoundOn) {
-            music.play();
-        }
 
         player = new Player();
         screenMenu = new ScreenMenu(this);
@@ -80,11 +77,6 @@ public class Main extends Game {
                 Thread.sleep(500);
                 Gdx.app.postRunnable(() -> {
                     setScreen(screen);
-                    if (isSoundOn) {
-                        music.play();
-                    } else {
-                        music.stop();
-                    }
                 });
             } catch (InterruptedException e) {
                 e.printStackTrace();
