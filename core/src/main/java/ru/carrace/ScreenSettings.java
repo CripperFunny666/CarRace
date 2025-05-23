@@ -90,10 +90,8 @@ public class ScreenSettings implements Screen {
                     setFontColorByControls();
                 }
                 if (btnAccelerometer.hit(touch)) {
-                    if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)) {
-                        controls = ACCELEROMETER;
-                        setFontColorByControls();
-                    }
+                    controls = ACCELEROMETER;
+                    setFontColorByControls();
                 }
                 if (btnSound.hit(touch)) {
                     isSoundOn = !isSoundOn;
@@ -107,7 +105,6 @@ public class ScreenSettings implements Screen {
                 if (btnBack.hit(touch)) {
                     main.setScreen(main.screenMenu);
                 }
-
             }
         }
         // отрисовка

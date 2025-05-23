@@ -128,8 +128,8 @@ public class ScreenGame implements Screen {
             }
         }
 
-        btnBack = new SunButton("x", font70, 850, 1600);
-        btnRestart = new SunButton("restart", font70, 300);
+        btnBack = new SunButton("x", font70, SCR_WIDTH - 70, SCR_HEIGHT - 30);
+        btnRestart = new SunButton("restart", font70, SCR_WIDTH/2 - 120, SCR_HEIGHT/2 - 500);
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
@@ -188,8 +188,16 @@ public class ScreenGame implements Screen {
             }
         }
         if (controls == ACCELEROMETER) {
-            car.vx = -Gdx.input.getAccelerometerX() * 2;
-            car.vy = -Gdx.input.getAccelerometerY() * 2;
+            float accelX = Gdx.input.getAccelerometerX();
+            float accelY = Gdx.input.getAccelerometerY();
+
+            // Нормализуем значения акселерометра
+            car.vx = -accelX * 5; // Увеличиваем чувствительность
+            car.vy = -accelY * 5;
+
+            // Ограничиваем максимальную скорость
+            car.vx = Math.max(-8, Math.min(8, car.vx));
+            car.vy = Math.max(-4, Math.min(7, car.vy));
         }
 
         // События

@@ -45,22 +45,22 @@ public class Enemy extends SpaceObject{
     private void setupByType(){
         switch (type){
             case 0:
-                vy = MathUtils.random(5f, 7f);
+                vy = MathUtils.random(5f, 6f);
                 hp = 1;
                 price = 2;
                 break;
             case 1:
-                vy = MathUtils.random(4f, 5f);
+                vy = MathUtils.random(5f, 8f);
                 hp = 1;
                 price = 5;
                 break;
             case 2:
-                vy = MathUtils.random(5f, 6f);
+                vy = MathUtils.random(7f, 8f);
                 hp = 1;
                 price = 3;
                 break;
             case 3:
-                vy = MathUtils.random(7f, 9f);
+                vy = MathUtils.random(8f, 11f);
                 hp = 1;
                 price = 2;
                 break;
