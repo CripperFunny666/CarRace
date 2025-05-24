@@ -70,7 +70,7 @@ public class ScreenGame implements Screen {
     // Переменные для ускорения
     private float gameSpeed = 1.0f;
     private float speedIncreaseRate = 0.0001f; // Скорость увеличения ускорения
-    private float maxGameSpeed = 6.0f; // Максимальная скорость игры
+    private float maxGameSpeed = 100.0f; // Максимальная скорость игры
 
     // Новые переменные для ScoreCounter
     private long lastScoreTime; // Время последнего добавления очка
