@@ -69,7 +69,7 @@ public class ScreenGame implements Screen {
 
     // Переменные для ускорения
     private float gameSpeed = 1.0f;
-    private float speedIncreaseRate = 0.0001f;
+    private float speedIncreaseRate = 0.0002f;
     private float maxGameSpeed = 20.0f;
 
     // Новые переменные для ScoreCounter
