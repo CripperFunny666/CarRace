@@ -27,9 +27,20 @@ public class Enemy extends SpaceObject{
     }
 
     public void move(float gameSpeed) {
-        y -= vy * gameSpeed;
-        phase = (phase + 1) % 12;
+        // Ограничиваем максимальную скорость движения
+        float maxSpeed = 15f;
+        float currentSpeed = vy * gameSpeed;
+        if (currentSpeed > maxSpeed) {
+            currentSpeed = maxSpeed;
         }
+        y -= currentSpeed;
+        
+        // Обновляем фазу анимации с учетом скорости
+        if (TimeUtils.millis() > timeLastPhase + timePhaseInterval) {
+            phase = (phase + 1) % nPhases;
+            timeLastPhase = TimeUtils.millis();
+        }
+    }
 
     public boolean outOfScreen(){
         return y<-height/2;

@@ -69,8 +69,8 @@ public class ScreenGame implements Screen {
 
     // Переменные для ускорения
     private float gameSpeed = 1.0f;
-    private float speedIncreaseRate = 0.0001f; // Скорость увеличения ускорения
-    private float maxGameSpeed = 100.0f; // Максимальная скорость игры
+    private float speedIncreaseRate = 0.0001f;
+    private float maxGameSpeed = 20.0f;
 
     // Новые переменные для ScoreCounter
     private long lastScoreTime; // Время последнего добавления очка
@@ -362,7 +362,8 @@ public class ScreenGame implements Screen {
     }
 
     private void spawnFragments(SpaceObject o) {
-        int fragmentsToSpawn = nFragments;
+        // Уменьшаем количество фрагментов при взрыве
+        int fragmentsToSpawn =nFragments; // Ограничиваем максимальное количество фрагментов
         for (int i = 0; i < fragmentsToSpawn; i++) {
             fragments.add(new Fragment(o.x, o.y, o.type, imgFragment[0].length));
         }
