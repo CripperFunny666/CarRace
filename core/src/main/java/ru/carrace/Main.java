@@ -30,6 +30,7 @@ public class Main extends Game {
     public Texture fadeTexture;
 
     Player player;
+    ScreenGarage screenGarage;
     ScreenMenu screenMenu;
     ScreenGame screenGame;
     ScreenSettings screenSettings;
@@ -57,6 +58,7 @@ public class Main extends Game {
         screenSettings = new ScreenSettings(this);
         screenLeaderBoard = new ScreenLeaderBoard(this);
         screenAbout = new ScreenAbout(this);
+        screenGarage = new ScreenGarage(this);
         setScreen(screenMenu);
     }
 

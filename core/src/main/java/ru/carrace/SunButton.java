@@ -2,6 +2,7 @@ package ru.carrace;
 
 import static ru.carrace.Main.SCR_WIDTH;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
@@ -46,10 +47,15 @@ public class SunButton {
     }
 
     boolean hit(float tx, float ty){
-        return x<tx && tx<x+width && y>ty && ty>y-height;
+        boolean hit = tx >= x && tx <= x + width && ty <= y && ty >= y - height;
+        if (hit) {
+            Gdx.app.log("Button", "Hit " + text + " at (" + tx + "," + ty + ")");
+            Gdx.app.log("Button", "Button bounds: x=" + x + ", y=" + y + ", width=" + width + ", height=" + height);
+        }
+        return hit;
     }
 
     boolean hit(Vector3 t){
-        return x<t.x && t.x<x+width && y>t.y && t.y>y-height;
+        return hit(t.x, t.y);
     }
 }

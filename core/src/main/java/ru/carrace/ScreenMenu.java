@@ -22,6 +22,7 @@ public class ScreenMenu implements Screen {
     Texture imgBackGround;
 
     SunButton btnPlay;
+    SunButton btnGarage;
     SunButton btnSettings;
     SunButton btnLeaderBoard;
     SunButton btnAbout;
@@ -37,10 +38,11 @@ public class ScreenMenu implements Screen {
         imgBackGround = new Texture("scrmenu.png");
 
         btnPlay = new SunButton("Play", font, 385, 600);
-        btnSettings = new SunButton("Settings", font, 320, 500);
-        btnLeaderBoard = new SunButton("LeaderBoard", font, 250, 400);
-        btnAbout = new SunButton("About", font, 350, 300);
-        btnExit = new SunButton("Exit", font, 390, 200);
+        btnGarage = new SunButton("Garage", font, 340, 500);
+        btnSettings = new SunButton("Settings", font, 320, 400);
+        btnLeaderBoard = new SunButton("LeaderBoard", font, 250, 300);
+        btnAbout = new SunButton("About", font, 350, 200);
+        btnExit = new SunButton("Exit", font, 390, 100);
     }
 
     @Override
@@ -61,6 +63,9 @@ public class ScreenMenu implements Screen {
             if(btnPlay.hit(touch.x, touch.y)){
                 main.setScreen(main.screenGame);
             }
+            if(btnGarage.hit(touch.x, touch.y)){
+                main.setScreen(main.screenGarage);
+            }
             if(btnSettings.hit(touch.x, touch.y)){
                 main.setScreen(main.screenSettings);
             }
@@ -78,11 +83,15 @@ public class ScreenMenu implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
+
+        // Отрисовка всех кнопок
         btnPlay.font.draw(batch, btnPlay.text, btnPlay.x, btnPlay.y);
+        btnGarage.font.draw(batch, btnGarage.text, btnGarage.x, btnGarage.y);
         btnSettings.font.draw(batch, btnSettings.text, btnSettings.x, btnSettings.y);
         btnLeaderBoard.font.draw(batch, btnLeaderBoard.text, btnLeaderBoard.x, btnLeaderBoard.y);
         btnAbout.font.draw(batch, btnAbout.text, btnAbout.x, btnAbout.y);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
+
         batch.end();
     }
 

@@ -75,6 +75,8 @@ public class ScreenGame implements Screen {
     // Новые переменные для ScoreCounter
     private long lastScoreTime; // Время последнего добавления очка
     private int S = 0; // Текущий счёт (очки)
+    public static int totalCoins = 0; // Общее количество собранных монет
+    private Preferences prefs; // Для сохранения данных
 
 
     public ScreenGame(Main main) {
@@ -85,6 +87,8 @@ public class ScreenGame implements Screen {
         font70 = main.font70white;
         font50 = main.font50white;
         font50new = main.font50new;
+        prefs = Gdx.app.getPreferences("CarRacePrefs");
+        totalCoins = prefs.getInteger("totalCoins", 0);
 
         sndBlaster = Gdx.audio.newSound(Gdx.files.internal("blaster.mp3"));
         sndExplosion = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
@@ -253,6 +257,7 @@ public class ScreenGame implements Screen {
             if (coins.get(i).overlap(car)) {
                 if (isSoundOn) sndCoin.play();
                 main.player.coins += coins.get(i).getValue();
+                addCoins(coins.get(i).getValue());
                 coins.remove(i);
             }
         }
@@ -338,6 +343,7 @@ public class ScreenGame implements Screen {
 
     @Override
     public void dispose() {
+        saveTotalCoins();
         imgBackGround.dispose();
         imgShipsAtlas.dispose();
         imgShotsAtlas.dispose();
@@ -435,8 +441,15 @@ public class ScreenGame implements Screen {
         for (Player player : players) player.clear();
     }
 
+    private void saveTotalCoins() {
+        prefs.putInteger("totalCoins", totalCoins);
+        prefs.flush();
+    }
 
-
+    private void addCoins(int amount) {
+        totalCoins += amount;
+        saveTotalCoins();
+    }
 
     class SunInputProcessor implements InputProcessor {
         // Флаги для отслеживания состояния клавиш
