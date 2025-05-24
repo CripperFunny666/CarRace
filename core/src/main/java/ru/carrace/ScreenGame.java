@@ -362,8 +362,7 @@ public class ScreenGame implements Screen {
     }
 
     private void spawnFragments(SpaceObject o) {
-        // Уменьшаем количество фрагментов при взрыве
-        int fragmentsToSpawn = Math.min(nFragments, 9); // Ограничиваем максимальное количество фрагментов
+        int fragmentsToSpawn = nFragments;
         for (int i = 0; i < fragmentsToSpawn; i++) {
             fragments.add(new Fragment(o.x, o.y, o.type, imgFragment[0].length));
         }
@@ -380,7 +379,7 @@ public class ScreenGame implements Screen {
         gameOver = false;
         explosionAnimationFinished = false;
         gameSpeed = 1.0f; // Сбрасываем скорость игры
-        car = new Car(SCR_WIDTH / 2, 200);
+        car = new Car(SCR_WIDTH / 2 + 120, 200);
         enemies.clear();
         fragments.clear();
         shots.clear();
@@ -497,13 +496,13 @@ public class ScreenGame implements Screen {
                     rightPressed = true;
                     updateMovement();
                     return true;
-                case Input.Keys.SPACE:
-                    if (TimeUtils.millis() > timeLastShoot + timeShootInterval) {
-                        shots.add(new Shot(car.x, car.y + car.height));
-                        timeLastShoot = TimeUtils.millis();
-                        if (isSoundOn) sndBlaster.play();
-                    }
-                    return true;
+                //case Input.Keys.SPACE:
+                //    if (TimeUtils.millis() > timeLastShoot + timeShootInterval) {
+                //        shots.add(new Shot(car.x, car.y + car.height));
+                //        timeLastShoot = TimeUtils.millis();
+                //        if (isSoundOn) sndBlaster.play();
+                //    }
+                //    return true;
             }
             return false;
         }
@@ -531,7 +530,6 @@ public class ScreenGame implements Screen {
             return false;
         }
 
-        // Остальные методы остаются без изменений
         @Override
         public boolean keyTyped(char character) {
             return false;
