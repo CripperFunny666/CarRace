@@ -34,7 +34,7 @@ public class Enemy extends SpaceObject{
             currentSpeed = maxSpeed;
         }
         y -= currentSpeed;
-        
+
         // Обновляем фазу анимации с учетом скорости
         if (TimeUtils.millis() > timeLastPhase + timePhaseInterval) {
             phase = (phase + 1) % nPhases;

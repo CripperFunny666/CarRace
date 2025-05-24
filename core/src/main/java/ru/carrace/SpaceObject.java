@@ -39,13 +39,6 @@ public class SpaceObject {
     }
 
     public boolean overlap(SpaceObject o){
-        float dx = Math.abs(x - o.x);
-        float dy = Math.abs(y - o.y);
-        float maxStep = Math.max(Math.abs(deltaX), Math.abs(deltaY));
-        
-        float collisionWidth = width/2 + o.width/2 + maxStep;
-        float collisionHeight = height/2 + o.height/2 + maxStep;
-        
-        return dx < collisionWidth && dy < collisionHeight;
+    return  Math.abs(x-o.x)< 230/2 && Math.abs(y - o.y) < 350/2;
     }
 }

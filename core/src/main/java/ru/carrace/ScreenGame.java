@@ -362,8 +362,7 @@ public class ScreenGame implements Screen {
     }
 
     private void spawnFragments(SpaceObject o) {
-        // Уменьшаем количество фрагментов при взрыве
-        int fragmentsToSpawn =nFragments; // Ограничиваем максимальное количество фрагментов
+        int fragmentsToSpawn =nFragments;
         for (int i = 0; i < fragmentsToSpawn; i++) {
             fragments.add(new Fragment(o.x, o.y, o.type, imgFragment[0].length));
         }

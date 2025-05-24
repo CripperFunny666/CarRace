@@ -8,8 +8,7 @@ public class Car extends SpaceObject{
 
     public Car(float x, float y) {
         super(x, y);
-        width = 200;
-        height = 200;
+        width = height = 200;
         type = 4;
     }
 
