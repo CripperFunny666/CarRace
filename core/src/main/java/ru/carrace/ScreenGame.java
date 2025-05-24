@@ -282,14 +282,14 @@ public class ScreenGame implements Screen {
         if (gameOver) {
             if (explosionAnimationFinished) {
                 font70.draw(batch, "GAME OVER", 0, 1300, SCR_WIDTH, Align.center, true);
-                font50.draw(batch, "score", 450, 1200, 200, Align.right, false);
-                font50.draw(batch, "name", 133, 1200, 200, Align.right, false);
-                font50.draw(batch, "coins", 640, 1200, 200, Align.right, false);
+                font50new.draw(batch, "score", 450, 1200, 200, Align.right, false);
+                font50new.draw(batch, "name", 133, 1200, 200, Align.right, false);
+                font50new.draw(batch, "coins", 640, 1200, 200, Align.right, false);
                 for (int i = 0; i < players.length; i++) {
-                    font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
-                    font50.draw(batch, players[i].name, 200, 1100 - i * 70);
-                    font50.draw(batch, players[i].score + "", 450, 1100 - i * 70, 200, Align.right, false);
-                    font50.draw(batch, players[i].coins + "", 600, 1100 - i * 70, 200, Align.right, false);
+                    font50new.draw(batch, i + 1 + "", 100, 1100 - i * 70);
+                    font50new.draw(batch, players[i].name, 200, 1100 - i * 70);
+                    font50new.draw(batch, players[i].score + "", 450, 1100 - i * 70, 200, Align.right, false);
+                    font50new.draw(batch, players[i].coins + "", 600, 1100 - i * 70, 200, Align.right, false);
                 }
                 btnRestart.font.draw(batch, btnRestart.text, btnRestart.x, btnRestart.y);
             } else {
