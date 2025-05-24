@@ -23,9 +23,17 @@ public class ScreenAbout implements Screen {
     Texture imgBackGround;
 
     SunButton btnBack;
-    private String text = "Это игра.\n" +
-        "В неё надо играть.\n" +
-        "Удачи.";
+    private String text = "Это простая 2D игра\n" +
+        "про машинки.\n" +
+        "В игре присутствует \n" +
+        "управление стрелочками\n" +
+        "и с помощью \n" +
+        "акселерометра.\n" +
+        "главная задача - это\n" +
+        "продержаться\n" +
+        "как можно больше\n" +
+        "времени на дороге.\n" +
+        "Удачи!";
 
     public ScreenAbout(Main main) {
         this.main = main;
