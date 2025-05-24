@@ -29,7 +29,7 @@ public class ScreenGame implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Vector3 touch;
-    private BitmapFont font50, font70;
+    private BitmapFont font50, font70,font50new;
     private Main main;
 
     Texture imgBackGround;
@@ -70,7 +70,7 @@ public class ScreenGame implements Screen {
     // Переменные для ускорения
     private float gameSpeed = 1.0f;
     private float speedIncreaseRate = 0.0001f; // Скорость увеличения ускорения
-    private float maxGameSpeed = 3.0f; // Максимальная скорость игры
+    private float maxGameSpeed = 6.0f; // Максимальная скорость игры
 
     // Новые переменные для ScoreCounter
     private long lastScoreTime; // Время последнего добавления очка
@@ -84,6 +84,7 @@ public class ScreenGame implements Screen {
         touch = main.touch;
         font70 = main.font70white;
         font50 = main.font50white;
+        font50new = main.font50new;
 
         sndBlaster = Gdx.audio.newSound(Gdx.files.internal("blaster.mp3"));
         sndExplosion = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
@@ -275,9 +276,9 @@ public class ScreenGame implements Screen {
         }
         batch.draw(imgShip[car.phase], car.scrX(), car.scrY(), car.width, car.height);
         btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
-        font50.draw(batch, "score:" + S, 15, 1590); // Выводим текущий счёт S
-        font50.draw(batch, "coins:" + main.player.coins, 15, 1540);
-        font50.draw(batch, "speed:" + String.format("%.1f", gameSpeed), 15, 1490); // Показываем текущую скорость
+        font50new.draw(batch, "score:" + S, 15, 1590); // Выводим текущий счёт S
+        font50new.draw(batch, "coins:" + main.player.coins, 15, 1540);
+        font50new.draw(batch, "speed:" + String.format("%.1f", gameSpeed), 15, 1490); // Показываем текущую скорость
         if (gameOver) {
             if (explosionAnimationFinished) {
                 font70.draw(batch, "GAME OVER", 0, 1300, SCR_WIDTH, Align.center, true);

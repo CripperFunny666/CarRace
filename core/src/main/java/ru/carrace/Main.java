@@ -25,6 +25,7 @@ public class Main extends Game {
     public BitmapFont font70white;
     public BitmapFont font70gray;
     public BitmapFont font50white;
+    public BitmapFont font50new;
     public Music music;
     public Texture fadeTexture;
 
@@ -43,7 +44,8 @@ public class Main extends Game {
         touch = new Vector3();
         font70white = new BitmapFont(Gdx.files.internal("fnt/gu.fnt"));
         font70gray = new BitmapFont(Gdx.files.internal("fnt/gugray.fnt"));
-        font50white = new BitmapFont(Gdx.files.internal("fnt/gu50white.fnt"));
+        font50white = new BitmapFont(Gdx.files.internal("fnt/new50white.fnt"));
+        font50new = new BitmapFont(Gdx.files.internal("fnt/gu50white.fnt"));
         fadeTexture = new Texture("white.png");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("main.mp3"));
