@@ -1,11 +1,7 @@
 package ru.carrace;
-
 import static ru.carrace.Main.SCR_HEIGHT;
 import static ru.carrace.Main.SCR_WIDTH;
-
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
-
 public class Car extends SpaceObject{
     public int phase, nPhases = 12;
     private long timeLastPhase, timePhaseInterval = 50;
@@ -48,10 +44,5 @@ public class Car extends SpaceObject{
             if (++phase == nPhases) phase = 0;
             timeLastPhase = TimeUtils.millis();
         }
-    }
-
-    public void touchScreen(Vector3 t){
-        vx = (t.x - x)/30;
-        vy = (t.y - y)/30;
     }
 }

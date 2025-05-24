@@ -13,23 +13,16 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ScreenGame implements Screen {
@@ -63,7 +56,7 @@ public class ScreenGame implements Screen {
     List<Fragment> fragments = new ArrayList<>();
     List<Coin> coins = new ArrayList<>();
     Player[] players = new Player[10];
-    private List<DataFromDB> db = new ArrayList<>();
+
 
     private long timeLastSpawnEnemy, timeSpawnEnemyInterval = 1500;
     private long timeLastSpawnCoin, timeSpawnCoinInterval = 2000;
@@ -83,9 +76,6 @@ public class ScreenGame implements Screen {
     private long lastScoreTime; // Время последнего добавления очка
     private int S = 0; // Текущий счёт (очки)
 
-    public List<DataFromDB> getDb() {
-        return db;
-    }
 
     public ScreenGame(Main main) {
         this.main = main;
@@ -407,7 +397,6 @@ public class ScreenGame implements Screen {
         gameOver = true;
         explosionStartTime = TimeUtils.millis();
         explosionAnimationFinished = false;
-        sendToInternetDB();
     }
 
     private void sortTableOfRecords() {
@@ -445,23 +434,8 @@ public class ScreenGame implements Screen {
         for (Player player : players) player.clear();
     }
 
-    private void sortRecordsInternetDB() {
-        class Cmp implements Comparator<DataFromDB> {
-            @Override
-            public int compare(DataFromDB o1, DataFromDB o2) {
-                return o2.score - o1.score;
-            }
-        }
-        db.sort(new Cmp());
-    }
 
-    public void loadFromInternetDB() {
-        // Implementation of loadFromInternetDB method
-    }
 
-    public void sendToInternetDB() {
-        // Implementation of sendToInternetDB method
-    }
 
     class SunInputProcessor implements InputProcessor {
         // Флаги для отслеживания состояния клавиш

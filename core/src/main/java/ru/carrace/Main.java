@@ -14,12 +14,10 @@ public class Main extends Game {
     public static final float SCR_WIDTH = 900;
     public static final float SCR_HEIGHT = 1600;
     public static final int KEYBOARD = 0, ACCELEROMETER = 1;
-    public static final boolean LEFT = false, RIGHT = true;
     public static int controls = KEYBOARD;
     public static boolean isSoundOn = true;
     public static float fadeAlpha = 0f;
     public static boolean isFading = false;
-    public static float fadeSpeed = 2f;
 
     public SpriteBatch batch;
     public OrthographicCamera camera;
@@ -67,20 +65,5 @@ public class Main extends Game {
         font70gray.dispose();
         music.dispose();
         fadeTexture.dispose();
-    }
-
-    public void fadeToScreen(Screen screen) {
-        isFading = true;
-        fadeAlpha = 0f;
-        new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                Gdx.app.postRunnable(() -> {
-                    setScreen(screen);
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
     }
 }

@@ -29,14 +29,7 @@ public class Enemy extends SpaceObject{
     public void move(float gameSpeed) {
         y -= vy * gameSpeed;
         phase = (phase + 1) % 12;
-    }
-
-    private void changePhase(){
-        if(TimeUtils.millis()>timeLastPhase+timePhaseInterval) {
-            if (++phase == nPhases) phase = 0;
-            timeLastPhase = TimeUtils.millis();
         }
-    }
 
     public boolean outOfScreen(){
         return y<-height/2;
