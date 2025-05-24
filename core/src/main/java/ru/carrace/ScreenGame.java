@@ -128,8 +128,8 @@ public class ScreenGame implements Screen {
             }
         }
 
-        btnBack = new SunButton("x", font70, SCR_WIDTH - 70, SCR_HEIGHT - 30);
-        btnRestart = new SunButton("restart", font70, SCR_WIDTH/2 - 120, SCR_HEIGHT/2 - 500);
+        btnBack = new SunButton("x", font70, SCR_WIDTH - 60, SCR_HEIGHT - 5);
+        btnRestart = new SunButton("restart", font70, SCR_WIDTH/2 - 120, SCR_HEIGHT/2 - 450);
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
@@ -285,19 +285,20 @@ public class ScreenGame implements Screen {
         }
         batch.draw(imgShip[car.phase], car.scrX(), car.scrY(), car.width, car.height);
         btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
-        font50.draw(batch, "score:" + S, 10, 1590); // Выводим текущий счёт S
-        font50.draw(batch, "coins:" + main.player.coins, 10, 1540);
-        font50.draw(batch, "speed:" + String.format("%.1f", gameSpeed), 10, 1490); // Показываем текущую скорость
+        font50.draw(batch, "score:" + S, 15, 1590); // Выводим текущий счёт S
+        font50.draw(batch, "coins:" + main.player.coins, 15, 1540);
+        font50.draw(batch, "speed:" + String.format("%.1f", gameSpeed), 15, 1490); // Показываем текущую скорость
         if (gameOver) {
             if (explosionAnimationFinished) {
-                font70.draw(batch, "GAME OVER", 0, 1400, SCR_WIDTH, Align.center, true);
-                font50.draw(batch, "score", 500, 1200, 200, Align.right, false);
-                font50.draw(batch, "coins", 650, 1200, 200, Align.right, false);
+                font70.draw(batch, "GAME OVER", 0, 1300, SCR_WIDTH, Align.center, true);
+                font50.draw(batch, "score", 450, 1200, 200, Align.right, false);
+                font50.draw(batch, "name", 133, 1200, 200, Align.right, false);
+                font50.draw(batch, "coins", 640, 1200, 200, Align.right, false);
                 for (int i = 0; i < players.length; i++) {
                     font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
                     font50.draw(batch, players[i].name, 200, 1100 - i * 70);
-                    font50.draw(batch, players[i].score + "", 500, 1100 - i * 70, 200, Align.right, false);
-                    font50.draw(batch, players[i].coins + "", 650, 1100 - i * 70, 200, Align.right, false);
+                    font50.draw(batch, players[i].score + "", 450, 1100 - i * 70, 200, Align.right, false);
+                    font50.draw(batch, players[i].coins + "", 600, 1100 - i * 70, 200, Align.right, false);
                 }
                 btnRestart.font.draw(batch, btnRestart.text, btnRestart.x, btnRestart.y);
             } else {

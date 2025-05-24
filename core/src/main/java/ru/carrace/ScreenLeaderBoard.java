@@ -68,14 +68,15 @@ public class ScreenLeaderBoard implements Screen {
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         font70.draw(batch, "LEADERBOARD", 0, 1500, SCR_WIDTH, Align.center, false);
-        font50.draw(batch, "score", 500, 1200, 200, Align.right, false);
-        font50.draw(batch, "coins", 670, 1200, 200, Align.right, false);
+        font50.draw(batch, "score", 450, 1200, 200, Align.right, false);
+        font50.draw(batch, "name", 133, 1200, 200, Align.right, false);
+        font50.draw(batch, "coins", 640, 1200, 200, Align.right, false);
 
         for (int i = 0; i < players.length; i++) {
             font50.draw(batch, i + 1 + "", 100, 1100 - i * 70);
             font50.draw(batch, players[i].name, 200, 1100 - i * 70);
-            font50.draw(batch, players[i].score + "", 500, 1100 - i * 70, 200, Align.right, false);
-            font50.draw(batch, players[i].coins + "", 650, 1100 - i * 70, 200, Align.right, false);
+            font50.draw(batch, players[i].score + "", 450, 1100 - i * 70, 200, Align.right, false);
+            font50.draw(batch, players[i].coins + "", 600, 1100 - i * 70, 200, Align.right, false);
         }
 
         btnClear.font.draw(batch, btnClear.text, btnClear.x, btnClear.y);
